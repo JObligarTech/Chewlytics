@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(file \"/Users/josephobligar/.claude/projects/-Users-josephobligar-Documents-Projects-Chewlytics/a0028199-e4e9-49dd-b6bc-1eb867dd19a7/tool-results/webfetch-1779320642555-gmr684.bin\" && gunzip -c \"/Users/josephobligar/.claude/projects/-Users-josephobligar-Documents-Projects-Chewlytics/a0028199-e4e9-49dd-b6bc-1eb867dd19a7/tool-results/webfetch-1779320642555-gmr684.bin\" > /tmp/design_output.json 2>&1 && echo \"Success\" || echo \"Failed\")",
+      "Bash(mkdir -p /tmp/design_extracted)",
+      "Bash(tar -xf design_output.json -C /tmp/design_extracted)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
+    ]
+  }
+}
