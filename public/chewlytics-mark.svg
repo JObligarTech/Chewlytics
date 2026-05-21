@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none" role="img" aria-label="Chewlytics mark">
+  
+  <path d="M 132 36 C 150 18 178 16 184 30 C 174 50 152 52 132 36 Z" fill="#1aaf28"></path>
+  
+  <path d="M 138 33 L 178 26" stroke="#0e7a1c" stroke-width="1.8" stroke-linecap="round" opacity="0.55"></path>
+  
+  <path d="M 122 58 L 132 40" stroke="#1aaf28" stroke-width="5" stroke-linecap="round"></path>
+
+  
+  <path d="M 120 60&#xA;           C 104 52 78 52 62 74&#xA;           C 42 100 38 134 46 168&#xA;           C 56 202 90 222 122 220&#xA;           C 148 220 176 214 192 196&#xA;           C 196 190 199 182 200 172&#xA;           C 184 167 170 159 168 146&#xA;           C 168 134 178 127 192 124&#xA;           C 196 123 198 120 200 114&#xA;           C 200 88 180 62 154 60&#xA;           C 140 58 130 60 120 60 Z" stroke="#1aaf28" stroke-width="7" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
+
+  
+  <rect x="76" y="172" width="22" height="32" rx="2" fill="#1aaf28"></rect>
+  <rect x="104" y="150" width="22" height="54" rx="2" fill="#1aaf28"></rect>
+  <rect x="132" y="124" width="22" height="80" rx="2" fill="#1aaf28"></rect>
+
+  
+  <polyline points="84,148 116,128 146,106 168,116" stroke="#1aaf28" stroke-width="3.2" fill="none" stroke-linejoin="round" stroke-linecap="round"></polyline>
+  <circle cx="84" cy="148" r="5" fill="#1aaf28"></circle>
+  <circle cx="116" cy="128" r="5" fill="#1aaf28"></circle>
+  <circle cx="146" cy="106" r="5" fill="#1aaf28"></circle>
+  <circle cx="168" cy="116" r="5" fill="#1aaf28"></circle>
+</svg>

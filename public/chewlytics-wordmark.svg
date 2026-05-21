@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 120" fill="none" role="img" aria-label="Chewlytics wordmark">
+  
+  <text x="0" y="86" class="wm">
+    <tspan fill="#1aaf28">Chew</tspan><tspan fill="#0d1e3a">lytics</tspan>
+  </text>
+  
+  <g transform="translate(395, 6)">
+    <path d="M 0 14 C 2 4 9 0 14 4 C 12 12 6 16 0 14 Z" fill="#1aaf28"></path>
+    <path d="M 2 12 L 11 5" stroke="#0e7a1c" stroke-width="1.2" stroke-linecap="round" opacity="0.55"></path>
+  </g>
+</svg>
