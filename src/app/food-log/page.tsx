@@ -8,6 +8,7 @@ import { DayNav } from "@/components/layout/DayNav";
 import { MacroStatCard } from "@/components/food-log/MacroStatCard";
 import { MealCard } from "@/components/food-log/MealCard";
 import { QuickAddCard, FrequentlyLogged, DailyInsight } from "@/components/food-log/QuickAddCard";
+import { AddFoodModal, type PendingItem } from "@/components/shared/AddFoodModal";
 import { foodLogData } from "@/lib/data";
 
 const PAGE_PAD = { maxWidth: 1440, margin: "0 auto", padding: "24px 24px 40px" };
@@ -15,7 +16,38 @@ const PAGE_PAD = { maxWidth: 1440, margin: "0 auto", padding: "24px 24px 40px" }
 export default function FoodLogPage() {
   type MealItem = { name: string; brand: string; kcal: number; p: number; c: number; f: number; thumb: string; bg: string };
   type Meal = { key: string; name: string; emoji: string; time: string | null; kcal: number; macros: { p: number; c: number; f: number }; items: MealItem[]; empty?: boolean; suggested?: string[] };
+
   const [meals, setMeals] = useState<Meal[]>(foodLogData.meals as Meal[]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [defaultMealKey, setDefaultMealKey] = useState<string | undefined>();
+
+  const openModal = (mealKey?: string) => {
+    setDefaultMealKey(mealKey);
+    setModalOpen(true);
+  };
+
+  const handleAddFromModal = (pending: PendingItem[], mealKey: string) => {
+    setMeals((ms) =>
+      ms.map((m) => {
+        if (m.key !== mealKey) return m;
+        const newItems = pending.flatMap(({ item, qty }) => Array.from({ length: qty }, () => item));
+        const addedKcal = pending.reduce((s, { item, qty }) => s + item.kcal * qty, 0);
+        const addedP = pending.reduce((s, { item, qty }) => s + item.p * qty, 0);
+        const addedC = pending.reduce((s, { item, qty }) => s + item.c * qty, 0);
+        const addedF = pending.reduce((s, { item, qty }) => s + item.f * qty, 0);
+        return {
+          ...m,
+          empty: false,
+          kcal: m.kcal + addedKcal,
+          macros: { p: m.macros.p + addedP, c: m.macros.c + addedC, f: m.macros.f + addedF },
+          items: [...m.items, ...newItems],
+        };
+      })
+    );
+    const totalQty = pending.reduce((s, x) => s + x.qty, 0);
+    const mealName = meals.find((m) => m.key === mealKey)?.name ?? mealKey;
+    toast.success(`Added ${totalQty} item${totalQty !== 1 ? "s" : ""} to ${mealName}`);
+  };
 
   const handleRemoveItem = (mealKey: string, idx: number) => {
     setMeals((ms) =>
@@ -26,13 +58,13 @@ export default function FoodLogPage() {
         const p = items.reduce((s, x) => s + x.p, 0);
         const c = items.reduce((s, x) => s + x.c, 0);
         const f = items.reduce((s, x) => s + x.f, 0);
-        return { ...m, items, kcal, macros: { p, c, f } };
+        return { ...m, items, kcal, macros: { p, c, f }, empty: items.length === 0 };
       })
     );
     toast.success("Item removed");
   };
 
-  const handleAdd = (item: { name: string; kcal: number }) => {
+  const handleQuickAdd = (item: { name: string; kcal: number }) => {
     toast.success(`Added ${item.name} to your log`);
   };
 
@@ -41,6 +73,15 @@ export default function FoodLogPage() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--chew-bg)" }}>
       <TopNav />
+
+      <AddFoodModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        meals={meals.map((m) => ({ key: m.key, name: m.name, emoji: m.emoji }))}
+        defaultMealKey={defaultMealKey}
+        onAdd={handleAddFromModal}
+      />
+
       <div style={PAGE_PAD} className="fade-in">
         {/* Page header */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 20 }}>
@@ -53,7 +94,7 @@ export default function FoodLogPage() {
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, flexWrap: "wrap", justifyContent: "flex-end" }}>
             <DayNav />
             <button
-              onClick={() => toast.info("Opening food search…")}
+              onClick={() => openModal()}
               style={{
                 display: "flex", alignItems: "center", gap: 6,
                 padding: "9px 16px", borderRadius: 10,
@@ -84,7 +125,7 @@ export default function FoodLogPage() {
               <MealCard
                 key={m.key}
                 meal={m}
-                onAddFood={() => toast.info(`Opening search for ${m.name.toLowerCase()}…`)}
+                onAddFood={() => openModal(m.key)}
                 onRemoveItem={handleRemoveItem}
               />
             ))}
@@ -92,8 +133,8 @@ export default function FoodLogPage() {
 
           {/* Right rail */}
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <QuickAddCard onAdd={handleAdd} />
-            <FrequentlyLogged onAdd={handleAdd} />
+            <QuickAddCard onAdd={handleQuickAdd} />
+            <FrequentlyLogged onAdd={handleQuickAdd} />
             <DailyInsight />
           </div>
         </div>

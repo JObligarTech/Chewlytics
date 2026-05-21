@@ -27,7 +27,9 @@
       "Bash(git remote *)",
       "Bash(git push *)",
       "Bash(curl -s http://localhost:3000)",
-      "Bash(npm uninstall *)"
+      "Bash(npm uninstall *)",
+      "Bash(npx tsc *)",
+      "Bash(npx next *)"
     ],
     "additionalDirectories": [
       "/tmp"

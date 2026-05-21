@@ -23,7 +23,7 @@ export function TopNav() {
         position: "sticky",
         top: 0,
         zIndex: 40,
-        background: "rgba(246, 247, 248, 0.85)",
+        background: "color-mix(in srgb, var(--chew-bg) 85%, transparent)",
         backdropFilter: "saturate(180%) blur(10px)",
         borderBottom: "1px solid var(--chew-hairline)",
       }}

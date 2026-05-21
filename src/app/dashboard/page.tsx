@@ -30,7 +30,7 @@ export default function DashboardPage() {
         }}
       >
         {/* Sidebar */}
-        <Sidebar water={water} setWater={setWater} />
+        <Sidebar water={water} />
 
         {/* Main content */}
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 12 }}>

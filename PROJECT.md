@@ -109,7 +109,7 @@ All mock data is exported from here. No API calls anywhere — every page reads 
 
 | Export | Used by |
 |---|---|
-| `chewData` | Dashboard — user profile, goals, nutrition grid, meals, weight, exercise, AI |
+| `chewData` | Dashboard — user profile (name, email, age, height, weight, activityLevel, dietaryStyle, memberSince, totalLogs), goals, nutrition grid, meals, weight, exercise, AI |
 | `foodLogData` | Food Log — totals, meals array, quickAdd chips, recent searches |
 | `exerciseData` | Exercise — totals, today's workouts, history, weekly bars, steps, zones, records |
 | `progressData` | Progress — weight series (90 days), body comp, weekly activity, goal progress, milestones |
@@ -123,7 +123,7 @@ To change any displayed value (numbers, names, goals), edit `src/lib/data.ts` �
 
 ### Layout components (`src/components/layout/`)
 - **`TopNav.tsx`** — sticky top nav with logo, 5 route tabs (active detection via `usePathname`), bell badge, date pill
-- **`Sidebar.tsx`** — dashboard-only left sidebar: profile, Daily Goals ring (120px), 5 goal rows, My Baseline, streak chip. Accepts `water` and `setWater` props from dashboard page.
+- **`Sidebar.tsx`** — dashboard-only left sidebar: profile card ("View profile" opens ProfileModal), gear icon (opens SettingsModal), Daily Goals ring (120px), 5 goal rows, My Baseline, streak chip. Accepts `water` prop from dashboard page. Both modals are rendered inline inside the Sidebar return, following the same backdrop/blur/X pattern as the Add Goal modal.
 - **`DayNav.tsx`** — prev/next arrow + Today button. Drop in wherever date navigation is needed.
 - **`SmartRecBar.tsx`** — fixed-bottom AI recommendation bar with dismiss button.
 
@@ -216,6 +216,29 @@ const PAGE_PAD = { maxWidth: 1440, margin: "0 auto", padding: "24px 24px 40px" }
   </div>
 </div>
 ```
+
+### Never hardcode color literals
+Always use CSS custom properties — never raw hex or `rgba(r, g, b, a)` values. Hardcoded colors will break dark mode.
+
+```tsx
+// ❌ breaks dark mode
+background: "rgba(246, 247, 248, 0.85)"
+
+// ✓ respects dark mode tokens
+background: "color-mix(in srgb, var(--chew-bg) 85%, transparent)"
+```
+
+---
+
+## Dark mode
+
+Dark mode is implemented via a `[data-theme="dark"]` block in `globals.css` that overrides all `--chew-*` surface, text, hairline, and tint tokens. Brand colors (`--chew-green`, `--chew-purple`, etc.) are unchanged.
+
+**How it's applied:**
+- `layout.tsx` includes an inline `<script>` that reads `localStorage.getItem('chew-theme')` and sets `data-theme` on `<html>` before hydration — no flash on reload.
+- The Settings modal (gear icon in Sidebar) has a Dark Mode toggle that writes to both `document.documentElement.setAttribute('data-theme', ...)` and `localStorage`.
+
+**Settings modal sections:** Appearance (dark mode toggle) · Units (weight/volume/distance segmented controls) · Notifications (three toggles) · Data (export CSV, reset to defaults).
 
 ---
 

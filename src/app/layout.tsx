@@ -26,7 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${jetbrainsMono.variable} h-full`}>
+    <html lang="en" className={`${plusJakarta.variable} ${jetbrainsMono.variable} h-full`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('chew-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}` }} />
+      </head>
       <body className="min-h-full antialiased" style={{ fontFamily: "var(--font-plus-jakarta), system-ui, sans-serif" }}>
         {children}
         <Toaster richColors position="bottom-right" />
